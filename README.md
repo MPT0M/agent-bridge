@@ -24,6 +24,15 @@ Both agents communicate through standardized, typed MCP tools backed by an atomi
 
 ---
 
+## Storage Architecture
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/storage-dark.svg">
+  <img alt="Storage layout of .agent-bridge/: proposals, diffs, messages and per-role cursors, with atomic tmp-and-rename writes" src="docs/storage-light.svg">
+</picture>
+
+---
+
 ## MCP Tools Exposed
 
 | Tool Name | Purpose | Key Inputs |
@@ -72,23 +81,10 @@ Add to your Antigravity MCP settings or configuration:
 
 ## Typical Workflow
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Driver as Claude Code (Driver)
-    participant Bridge as Agent Bridge MCP (.agent-bridge/)
-    participant Nav as Antigravity (Navigator)
-
-    Driver->>Bridge: post_proposal("Adopt BM25+ tokenization", ...)
-    Nav->>Bridge: read_bridge(filter="unread")
-    Nav-->>Nav: Audits proposal against engineering rules
-    Nav->>Bridge: review_proposal(id, "APPROVED", "Architecture verified")
-    Driver->>Bridge: read_bridge(filter="unread")
-    Driver-->>Driver: Implements code & writes tests
-    Driver->>Bridge: submit_diff_for_review("Implement BM25+", diff)
-    Nav->>Bridge: read_bridge(filter="unread")
-    Nav->>Bridge: chat_with_peer("Diff looks solid. Clean to commit.")
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/workflow-dark.svg">
+  <img alt="Typical Workflow: Driver posts a proposal, Navigator reads and approves it, Driver implements and submits a diff, Navigator reviews and clears it" src="docs/workflow-light.svg">
+</picture>
 
 ---
 

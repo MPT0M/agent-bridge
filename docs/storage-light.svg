@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 470" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="11.5">
+  <!-- Agent Bridge MCP — Storage architecture (light theme, transparent background)
+       .agent-bridge/ partitioned store: proposals/, diffs/, messages/, cursors/.
+       Dot on a file = author (cyan Driver, amber Navigator). Cursor line = last read; files below it are unread for that role. -->
+  <defs>
+    <marker id="a-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#0B7A8A"/>
+    </marker>
+    <marker id="a-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#A15E00"/>
+    </marker>
+    <marker id="a-text" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#57606A"/>
+    </marker>
+  </defs>
+
+  <!-- Agents -->
+  <rect x="25" y="16" width="210" height="44" rx="6" fill="#F6F8FA" stroke="#0B7A8A" stroke-width="1.5"/>
+  <text x="52" y="43" font-size="13" fill="#1F2328">Claude Code <tspan fill="#0B7A8A">(Driver)</tspan></text>
+  <rect x="845" y="16" width="210" height="44" rx="6" fill="#F6F8FA" stroke="#A15E00" stroke-width="1.5"/>
+  <text x="860" y="43" font-size="13" fill="#1F2328">Antigravity <tspan fill="#A15E00">(Navigator)</tspan></text>
+  <text x="540" y="42" text-anchor="middle" fill="#57606A">two independent OS processes · stdio MCP · the filesystem is the bus</text>
+
+  <!-- write (solid, down) / read (dashed, up) -->
+  <line x1="118" y1="62" x2="118" y2="96" stroke="#0B7A8A" stroke-width="1.5" marker-end="url(#a-cyan)"/>
+  <line x1="142" y1="96" x2="142" y2="62" stroke="#0B7A8A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a-cyan)"/>
+  <line x1="938" y1="62" x2="938" y2="96" stroke="#A15E00" stroke-width="1.5" marker-end="url(#a-amber)"/>
+  <line x1="962" y1="96" x2="962" y2="62" stroke="#A15E00" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a-amber)"/>
+
+  <!-- Store container -->
+  <rect x="60" y="100" width="960" height="310" rx="8" fill="none" stroke="#8C959F" stroke-width="1.5"/>
+  <text x="80" y="128" font-size="13" fill="#1F2328">.agent-bridge/</text>
+  <text x="196" y="128" fill="#57606A">partitioned local store · one directory per record type</text>
+
+  <!-- Column separators -->
+  <g stroke="#8C959F" stroke-width="1" stroke-dasharray="3 4">
+    <line x1="300" y1="150" x2="300" y2="350"/>
+    <line x1="540" y1="150" x2="540" y2="350"/>
+    <line x1="780" y1="150" x2="780" y2="350"/>
+  </g>
+
+  <!-- Column headers -->
+  <g font-size="12.5" fill="#1F2328">
+    <text x="80" y="170">proposals/</text>
+    <text x="320" y="170">diffs/</text>
+    <text x="560" y="170">messages/</text>
+    <text x="800" y="170">cursors/</text>
+  </g>
+  <g font-size="9.5" fill="#57606A">
+    <text x="80" y="184">&lt;uuid&gt;.json · rewritten on verdict</text>
+    <text x="320" y="184">&lt;timestamp&gt;_&lt;uuid&gt;.json · append-only</text>
+    <text x="560" y="184">&lt;timestamp&gt;_&lt;uuid&gt;.json · append-only</text>
+    <text x="800" y="184">&lt;role&gt;.json · independent per agent</text>
+  </g>
+
+  <!-- proposals/ -->
+  <g stroke="#8C959F" stroke-width="1" fill="#F6F8FA">
+    <rect x="80" y="196" width="200" height="26" rx="4"/>
+    <rect x="80" y="236" width="200" height="26" rx="4"/>
+  </g>
+  <circle cx="92" cy="209" r="3.5" fill="#0B7A8A"/>
+  <text x="102" y="213" font-size="10" fill="#57606A">3f9c1a7e-….json</text>
+  <text x="272" y="213" font-size="9.5" text-anchor="end" fill="#0B7A52">APPROVED</text>
+  <circle cx="92" cy="249" r="3.5" fill="#0B7A8A"/>
+  <text x="102" y="253" font-size="10" fill="#57606A">b04d92c5-….json</text>
+  <text x="272" y="253" font-size="9.5" text-anchor="end" fill="#57606A">PENDING</text>
+
+  <!-- diffs/ -->
+  <g stroke="#8C959F" stroke-width="1" fill="#F6F8FA">
+    <rect x="320" y="196" width="200" height="26" rx="4"/>
+    <rect x="320" y="236" width="200" height="26" rx="4"/>
+  </g>
+  <circle cx="332" cy="209" r="3.5" fill="#0B7A8A"/>
+  <text x="342" y="213" font-size="10" fill="#57606A">2026-09-04T12-58-40_e71a….json</text>
+  <circle cx="332" cy="249" r="3.5" fill="#0B7A8A"/>
+  <text x="342" y="253" font-size="10" fill="#57606A">2026-09-04T13-21-05_90bf….json</text>
+
+  <!-- messages/ -->
+  <g stroke="#8C959F" stroke-width="1" fill="#F6F8FA">
+    <rect x="560" y="196" width="200" height="26" rx="4"/>
+    <rect x="560" y="236" width="200" height="26" rx="4"/>
+    <rect x="560" y="276" width="200" height="26" rx="4"/>
+    <rect x="560" y="316" width="200" height="26" rx="4"/>
+  </g>
+  <circle cx="572" cy="209" r="3.5" fill="#A15E00"/>
+  <text x="582" y="213" font-size="10" fill="#57606A">2026-09-04T13-02-11_7d1e….json</text>
+  <circle cx="572" cy="249" r="3.5" fill="#0B7A8A"/>
+  <text x="582" y="253" font-size="10" fill="#57606A">2026-09-04T13-04-37_c2a8….json</text>
+  <circle cx="572" cy="289" r="3.5" fill="#A15E00"/>
+  <text x="582" y="293" font-size="10" fill="#57606A">2026-09-04T13-22-50_41f0….json</text>
+  <circle cx="572" cy="329" r="3.5" fill="#A15E00"/>
+  <text x="582" y="333" font-size="10" fill="#57606A">2026-09-04T13-23-14_a9d3….json</text>
+
+  <!-- cursors/ -->
+  <rect x="800" y="196" width="210" height="58" rx="4" fill="#F6F8FA" stroke="#A15E00" stroke-width="1.5"/>
+  <text x="812" y="211" font-size="10.5" fill="#A15E00">navigator.json</text>
+  <text x="812" y="226" font-size="8.5" fill="#57606A">lastReadProposalTimestamp</text>
+  <text x="812" y="237" font-size="8.5" fill="#57606A">lastReadMessageTimestamp</text>
+  <text x="1000" y="237" font-size="9" text-anchor="end" fill="#1F2328">…13:02:11Z</text>
+  <text x="812" y="248" font-size="8.5" fill="#57606A">lastReadDiffTimestamp</text>
+
+  <rect x="800" y="276" width="210" height="58" rx="4" fill="#F6F8FA" stroke="#0B7A8A" stroke-width="1.5"/>
+  <text x="812" y="291" font-size="10.5" fill="#0B7A8A">driver.json</text>
+  <text x="812" y="306" font-size="8.5" fill="#57606A">lastReadProposalTimestamp</text>
+  <text x="812" y="317" font-size="8.5" fill="#57606A">lastReadMessageTimestamp</text>
+  <text x="1000" y="317" font-size="9" text-anchor="end" fill="#1F2328">…13:22:50Z</text>
+  <text x="812" y="328" font-size="8.5" fill="#57606A">lastReadDiffTimestamp</text>
+
+  <!-- Cursor high-water marks into messages/ (files below the line are unread for that role) -->
+  <path d="M800 229 H556" fill="none" stroke="#A15E00" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <circle cx="556" cy="229" r="3" fill="#A15E00"/>
+  <path d="M800 305 H790 V309 H556" fill="none" stroke="#0B7A8A" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <circle cx="556" cy="309" r="3" fill="#0B7A8A"/>
+
+  <!-- Atomic write strip -->
+  <text x="80" y="381" fill="#1F2328">atomic write</text>
+  <rect x="190" y="366" width="140" height="26" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+  <text x="260" y="383" font-size="10" text-anchor="middle" fill="#57606A">.tmp_&lt;uuid&gt;</text>
+  <line x1="336" y1="379" x2="444" y2="379" stroke="#57606A" stroke-width="1.5" marker-end="url(#a-text)"/>
+  <text x="390" y="373" font-size="9.5" text-anchor="middle" fill="#57606A">fs.rename</text>
+  <rect x="450" y="366" width="230" height="26" rx="4" fill="#F6F8FA" stroke="#8C959F" stroke-width="1"/>
+  <text x="565" y="383" font-size="10" text-anchor="middle" fill="#57606A">&lt;timestamp&gt;_&lt;uuid&gt;.json</text>
+  <text x="700" y="383" font-size="9.5" fill="#57606A">readers never see a partial file · EPERM/EBUSY retry ×5</text>
+
+  <!-- Legend -->
+  <g font-size="11" fill="#57606A">
+    <circle cx="66" cy="446" r="4" fill="#0B7A8A"/><text x="76" y="450">authored by Driver</text>
+    <circle cx="216" cy="446" r="4" fill="#A15E00"/><text x="226" y="450">authored by Navigator</text>
+    <line x1="392" y1="446" x2="432" y2="446" stroke="#57606A" stroke-width="1.5" marker-end="url(#a-text)"/><text x="441" y="450">write</text>
+    <line x1="500" y1="446" x2="540" y2="446" stroke="#57606A" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a-text)"/><text x="549" y="450">read</text>
+    <line x1="606" y1="446" x2="646" y2="446" stroke="#57606A" stroke-width="1.5" stroke-dasharray="5 4"/><circle cx="606" cy="446" r="3" fill="#57606A"/><text x="655" y="450">cursor: last read — files below it are unread for that role</text>
+  </g>
+</svg>
