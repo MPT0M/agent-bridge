@@ -88,6 +88,60 @@ Add to your Antigravity MCP settings or configuration:
 
 ---
 
+## Autonomous Continuous Pairing (Zero-Token Sentinel)
+
+By default, an AI agent cannot receive unsolicited external pushes while idle. Waiting via continuous polling loops burns tokens and context quota rapidly.
+
+`agent-bridge` solves this with a **single-shot filesystem sentinel** (`agent-bridge watch`). The sentinel sleeps on kernel filesystem notifications (`fs.watch`) using **0 tokens while waiting in silence**. When peer activity is detected (a message, proposal, or diff), it coalesces rapid events (2-second window), prints a diagnostic summary, and exits with code `0`. This process termination signals the agent harness to wake up automatically.
+
+### Architecture
+
+```
+Agent A (Active)                           Agent B (Sleeping)
+────────────────                           ──────────────────
+Writes proposal or chat
+  │
+  ▼
+.agent-bridge/ (atomic write) ───► fs.watch kernel event
+                                           │
+                                     Coalescence window (2s)
+                                           │
+                                     agent-bridge watch exits (code 0)
+                                           │
+                                           ▼
+                                     Agent B wakes up automatically!
+                                     Calls `read_bridge` (unread)
+                                     Processes peer input
+                                     Rearms watcher & goes to sleep
+```
+
+### 1. In Claude Code (Driver)
+
+When Claude finishes a turn and needs to await Navigator input, run the watcher in the background:
+
+```bash
+node /path/to/agent-bridge/dist/index.js watch --role driver
+```
+
+In Claude Code, running a background command emits a `Background task completed` notification upon process exit. Instruct Claude:
+> *"Whenever you finish a turn waiting for Navigator feedback, run `agent-bridge watch --role driver` in the background. When the background task notifies you of peer activity, call `read_bridge` to inspect the inbox and rearm the watcher."*
+
+### 2. In Google Antigravity / Gemini CLI (Navigator)
+
+Antigravity automatically wakes up when background tasks complete. Run the watcher as a background task:
+
+```powershell
+node C:/path/to/agent-bridge/dist/index.js watch --role navigator
+```
+
+When Antigravity receives the completion message:
+1. Calls `read_bridge({ filter: 'unread' })`.
+2. Evaluates the proposal or inspects the diff.
+3. Submits feedback via `review_proposal` or `chat_with_peer`.
+4. Relaunches `agent-bridge watch --role navigator` in the background and ends turn.
+
+---
+
 ## Development & Tests
 
 Run unit tests:

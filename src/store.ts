@@ -45,6 +45,34 @@ export class Store {
   }
 
   /**
+   * Returns the root storage directory of the bridge instance.
+   */
+  getBaseDir(): string {
+    return this.baseDir;
+  }
+
+  /**
+   * Returns the absolute path to the proposals storage directory.
+   */
+  getProposalsDir(): string {
+    return this.proposalsDir;
+  }
+
+  /**
+   * Returns the absolute path to the chat messages storage directory.
+   */
+  getMessagesDir(): string {
+    return this.messagesDir;
+  }
+
+  /**
+   * Returns the absolute path to the diffs storage directory.
+   */
+  getDiffsDir(): string {
+    return this.diffsDir;
+  }
+
+  /**
    * Performs an atomic write using a temporary file and rename with exponential backoff
    * to gracefully handle Windows-specific EPERM/EBUSY locking edge-cases.
    */
