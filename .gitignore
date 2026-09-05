@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.agent-bridge/
+*.log
+.DS_Store
